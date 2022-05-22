@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final isSignIn = await isSignInUseCase.call();
       if (isSignIn) {
-        final uId = getCurrentUidUsecase.call().toString();
+        final uId = await getCurrentUidUsecase.call().toString();
         emit(Authenticated(uid: uId));
       } else {
         emit(UnAuthenticated());

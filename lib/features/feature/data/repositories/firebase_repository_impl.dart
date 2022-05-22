@@ -26,10 +26,7 @@ class FirebaseRepositoryImpl extends FirebaseRepository {
   @override
   Stream<List<NoteEntity>> getNotes(String uid) => getNotes(uid);
   @override
-  Future<bool> isSignIn() {
-    // TODO: implement isSignIn
-    throw UnimplementedError();
-  }
+  Future<bool> isSignIn() async => remoteDataSource.isSignIn();
 
   @override
   Future<void> signIn(UserEntity user) async => remoteDataSource.signIn(user);

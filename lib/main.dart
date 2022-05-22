@@ -29,15 +29,15 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(
-          create: (context) => di.sl<AuthCubit>()..appStarted(),
+          create: (_) => di.sl<AuthCubit>()..appStarted(),
           child: Container(),
         ),
         BlocProvider<UserCubit>(
-          create: (context) => di.sl<UserCubit>(),
+          create: (_) => di.sl<UserCubit>(),
           child: Container(),
         ),
         BlocProvider<NoteCubit>(
-          create: (context) => di.sl<NoteCubit>(),
+          create: (_) => di.sl<NoteCubit>(),
           child: Container(),
         ),
       ],
@@ -61,7 +61,8 @@ class MyApp extends StatelessWidget {
                 if (authState is UnAuthenticated) {
                   return SignInPage();
                 }
-                return CircularProgressIndicator();
+                return Center(
+                    child: Container(child: CircularProgressIndicator()));
               },
             );
           }

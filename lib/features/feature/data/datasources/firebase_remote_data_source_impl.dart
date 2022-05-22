@@ -18,7 +18,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<void> addNewNote(NoteEntity noteEntity) async {
     final noteCollectionref =
         firestore.collection("users").doc(noteEntity.uid).collection("notes");
-    final noteId = noteCollectionref.id;
+    final noteId = noteCollectionref.doc().id;
     noteCollectionref.doc(noteId).get().then((note) {
       final newNote = NoteModel(
               note: noteEntity.note,
