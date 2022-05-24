@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,10 +39,9 @@ class _SignUpaPageState extends State<SignUpaPage> {
       body: BlocConsumer<UserCubit, UserState>(listener: (context, userState) {
         if (userState is UserSuccess) {
           BlocProvider.of<AuthCubit>(context).loggedIn();
-        } else {
-          if (userState is UserFailure) {
-            snackBarError(msg: "invlid email", scaffoldState: _globalKey);
-          }
+        }
+        if (userState is UserFailure) {
+          snackBarError(msg: "invlid email", scaffoldState: _globalKey);
         }
       }, builder: (context, userState) {
         if (userState is UserSuccess) {
@@ -58,7 +55,7 @@ class _SignUpaPageState extends State<SignUpaPage> {
             },
           );
         }
-        return CircularProgressIndicator();
+        return bodyWidget();
       }),
     );
   }
@@ -94,9 +91,8 @@ class _SignUpaPageState extends State<SignUpaPage> {
           Container(
             child: TextField(
               controller: _userNameController,
-              obscureText: true,
               decoration: InputDecoration(
-                  hintText: "Enter your Password", border: InputBorder.none),
+                  hintText: "Enter your username", border: InputBorder.none),
             ),
             height: 50,
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -105,12 +101,14 @@ class _SignUpaPageState extends State<SignUpaPage> {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
+          SizedBox(
+            height: 30,
+          ),
           Container(
             child: TextField(
               controller: _emailController,
-              obscureText: true,
               decoration: InputDecoration(
-                  hintText: "Enter your Password", border: InputBorder.none),
+                  hintText: "Enter your email", border: InputBorder.none),
             ),
             height: 50,
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -118,6 +116,9 @@ class _SignUpaPageState extends State<SignUpaPage> {
               color: Colors.black.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
             ),
+          ),
+          SizedBox(
+            height: 30,
           ),
           Container(
             child: TextField(
@@ -137,7 +138,9 @@ class _SignUpaPageState extends State<SignUpaPage> {
             height: 10,
           ),
           GestureDetector(
-            onTap: submitSignIn(),
+            onTap: () {
+              submitSignUpthis();
+            },
             child: Container(
               height: 45,
               alignment: Alignment.center,
@@ -157,11 +160,11 @@ class _SignUpaPageState extends State<SignUpaPage> {
     );
   }
 
-  submitSignIn() {
+  void submitSignUpthis() {
     if (_userNameController.text.isNotEmpty &&
         _emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty) {
-      BlocProvider.of<UserCubit>(context).submitSignIn(UserEntity(
+      BlocProvider.of<UserCubit>(context).submitSignUp(UserEntity(
           email: _emailController.text, password: _passwordController.text));
     }
   }

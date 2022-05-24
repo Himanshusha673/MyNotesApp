@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mynotes/app_constant.dart';
 import 'package:mynotes/features/feature/presentation/cubit/auth/auth_cubit.dart';
 import 'package:mynotes/features/feature/presentation/cubit/note/note_cubit.dart';
+import 'package:mynotes/main.dart';
 
 class HomePage extends StatefulWidget {
   final String uid;
@@ -14,6 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static List<Color> notesColor = [
+    Colors.red.shade100,
+    Colors.green.shade100,
+    Colors.blue.shade100,
+    Colors.orange.shade100,
+    Colors.purple.shade100,
+    Colors.yellow.shade100,
+    Colors.redAccent.shade100,
+    Colors.blueAccent.shade100,
+    Colors.pink.shade100,
+  ];
   @override
   void initState() {
     BlocProvider.of<NoteCubit>(context).getNotes(uid: widget.uid);
@@ -24,7 +38,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("MyNotes"),
+        centerTitle: true,
+        title: const Text("MyNotes"),
         actions: [
           IconButton(
               onPressed: (() {
@@ -43,21 +58,22 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       body: BlocBuilder<NoteCubit, NoteState>(builder: (context, noteState) {
-        return Center(child: CircularProgressIndicator());
         if (noteState is NoteLoaded) {
           return _bodyWidget(noteState);
         }
+        return Center(child: CircularProgressIndicator());
       }),
     );
   }
 
-  Widget noNotesWidget() {
+  static Widget _noNotesWidget() {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             height: 80,
-            child: Image.asset('assets/Images/NoteBook.png'),
+            child: Image.asset('assets/Images/notebook.png'),
           ),
           SizedBox(height: 20),
           Text('No notes here yet')
@@ -68,10 +84,11 @@ class _HomePageState extends State<HomePage> {
 
   Widget _bodyWidget(NoteLoaded noteLoadedState) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           child: noteLoadedState.notes.isEmpty
-              ? noNotesWidget()
+              ? _noNotesWidget()
               : GridView.builder(
                   itemCount: noteLoadedState.notes.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -79,10 +96,11 @@ class _HomePageState extends State<HomePage> {
                     childAspectRatio: 1.2,
                   ),
                   itemBuilder: (_, index) {
+                    int randomColor = Random().nextInt(notesColor.length - 1);
                     return GestureDetector(
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: notesColor[randomColor],
                             borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
@@ -102,8 +120,20 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 height: 4,
                               ),
-                              Text(
-                                  "${DateFormat("dd MMMM YYYY HH:mm a").format(noteLoadedState.notes[index].time!.toDate())}"),
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    border: Border.all(color: Colors.black)),
+                                child: Text(
+                                  "${DateFormat("dd MMM yy HH:mm a").format(
+                                    noteLoadedState.notes[index].time!.toDate(),
+                                  )}",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.deepOrange, fontSize: 13),
+                                ),
+                              ),
                             ]),
                       ),
                       onTap: () {

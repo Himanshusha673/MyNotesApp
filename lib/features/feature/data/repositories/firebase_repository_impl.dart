@@ -24,7 +24,8 @@ class FirebaseRepositoryImpl extends FirebaseRepository {
   Future<String> getCurrentUid() async => remoteDataSource.getCurrentUid();
 
   @override
-  Stream<List<NoteEntity>> getNotes(String uid) => getNotes(uid);
+  Stream<List<NoteEntity>> getNotes(String uid) =>
+      remoteDataSource.getNotes(uid);
   @override
   Future<bool> isSignIn() async => remoteDataSource.isSignIn();
 

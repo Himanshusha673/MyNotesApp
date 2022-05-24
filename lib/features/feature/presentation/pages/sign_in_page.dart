@@ -53,7 +53,7 @@ class _SignInPageState extends State<SignInPage> {
             },
           );
         }
-        return CircularProgressIndicator();
+        return _bodyWidget();
       }),
     );
   }
@@ -70,7 +70,7 @@ class _SignInPageState extends State<SignInPage> {
           Container(
               height: 120,
               child: Image.asset(
-                "assets/images/NoteBook.png",
+                "assets/images/notebook.png",
                 fit: BoxFit.cover,
               )),
           SizedBox(
@@ -110,7 +110,7 @@ class _SignInPageState extends State<SignInPage> {
             height: 10,
           ),
           GestureDetector(
-            onTap: submitSignIn(),
+            onTap: _submitSignIn(),
             child: Container(
               height: 45,
               alignment: Alignment.center,
@@ -152,7 +152,7 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  submitSignIn() {
+  _submitSignIn() {
     if (_emailController.text.isNotEmpty &&
         _passwordController.text.isNotEmpty) {
       BlocProvider.of<UserCubit>(context).submitSignIn(UserEntity(

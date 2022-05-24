@@ -37,6 +37,7 @@ class _AddNewNotePageState extends State<AddNewNotePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldStateKey,
       appBar: AppBar(
         title: Text("Note"),
       ),
@@ -90,5 +91,8 @@ class _AddNewNotePageState extends State<AddNewNotePage> {
         uid: widget.uid,
       ),
     );
+    Future.delayed(Duration(seconds: 1), (() {
+      Navigator.pop(context);
+    }));
   }
 }

@@ -7,19 +7,19 @@ abstract class NoteState extends Equatable {
 class NoteInitial extends NoteState {
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class NoteLoading extends NoteState {
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class NoteFailure extends NoteState {
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class NoteLoaded extends NoteState {

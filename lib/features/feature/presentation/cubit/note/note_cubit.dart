@@ -58,6 +58,7 @@ class NoteCubit extends Cubit<NoteState> {
         emit(NoteLoaded(notes: notes));
       });
     } on SocketException catch (_) {
+      emit(NoteFailure());
     } catch (_) {
       emit(NoteFailure());
     }
